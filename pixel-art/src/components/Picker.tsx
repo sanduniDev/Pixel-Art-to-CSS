@@ -1,6 +1,20 @@
 import React from 'react';
 
-const Picker = ({ type, value, action, min = 1, max = 0 }) => {
+interface PickerProps {
+  type: string;                    
+  value: number;                   
+  action: (type: string, delta: number) => void; 
+  min?: number;                    
+  max?: number;                    
+}
+
+const Picker: React.FC<PickerProps> = ({
+  type,
+  value,
+  action,
+  min = 1,
+  max = 0
+}) => {
   const pickerType = `picker__${type}`;
   return (
     <div className="picker">
