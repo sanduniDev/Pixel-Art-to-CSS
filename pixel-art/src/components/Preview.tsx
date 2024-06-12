@@ -1,22 +1,38 @@
 import React from 'react';
-import {
-  generatePixelDrawCss,
-  generateAnimationCSSData
-} from '../utils/cssParse';
+import { generatePixelDrawCss, generateAnimationCSSData } from '../utils/cssParse';
 import Animation from './Animation';
 
-const Preview = props => {
+interface Frame {
+  id: string; 
+}
+
+interface StoredData {
+  frames: Map<number, Frame>;
+  columns: number;
+  rows: number;
+  cellSize: number;
+  animate: boolean;
+}
+
+interface PreviewProps {
+  activeFrameIndex?: number; 
+  duration?: number;
+  storedData?: StoredData;
+  animationName?: string;
+}
+
+const Preview: React.FC<PreviewProps> = props => {
   const generatePreview = () => {
     const { activeFrameIndex, duration, storedData, animationName } = props;
     const { frames, columns, cellSize, animate } = storedData || props;
     const animation = frames.size > 1 && animate;
-    let animationData;
-    let cssString;
+    let animationData: string | undefined;
+    let cssString: string | undefined;
 
-    const styles = {
+    const styles: { previewWrapper: React.CSSProperties } = {
       previewWrapper: {
-        height: cellSize,
-        width: cellSize,
+        height: `${cellSize}px`,
+        width: `${cellSize}px`,
         position: 'absolute',
         top: '-5px',
         left: '-5px'
@@ -27,7 +43,7 @@ const Preview = props => {
       animationData = generateAnimationCSSData(frames, columns, cellSize);
     } else {
       cssString = generatePixelDrawCss(
-        frames.get(activeFrameIndex),
+        frames.get(activeFrameIndex!),
         columns,
         cellSize,
         'string'
@@ -39,11 +55,11 @@ const Preview = props => {
     }
 
     return (
-      <div style={animation ? null : styles.previewWrapper}>
+      <div style={animation ? undefined : styles.previewWrapper}>
         {animation ? (
           <Animation
-            duration={duration}
-            boxShadow={animationData}
+            duration={duration!}
+            boxShadow={animationData!}
             name={animationName}
           />
         ) : null}
@@ -53,9 +69,9 @@ const Preview = props => {
 
   const { storedData } = props;
   const { columns, rows, cellSize } = storedData || props;
-  const style = {
-    width: columns * cellSize,
-    height: rows * cellSize,
+  const style: React.CSSProperties = {
+    width: `${columns * cellSize}px`,
+    height: `${rows * cellSize}px`,
     position: 'relative'
   };
 
@@ -65,4 +81,5 @@ const Preview = props => {
     </div>
   );
 };
+
 export default Preview;

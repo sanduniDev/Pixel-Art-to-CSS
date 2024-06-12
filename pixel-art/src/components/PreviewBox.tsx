@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../store'; // Adjust the path as needed to import your root Redux state type
 import Preview from './Preview';
 
-const PreviewBox = props => {
+interface PreviewBoxProps {
+  helpOn: boolean;
+  callback: () => void; 
+}
+
+const PreviewBox: React.FC<PreviewBoxProps> = ({ helpOn, callback }) => {
   const [animate, setAnimate] = useState(false);
   const [isNormalSize, setNormalSize] = useState(true);
-  const frames = useSelector(state => state.present.get('frames'));
-  const duration = useSelector(state => state.present.get('duration'));
+
+  const frames = useSelector((state: RootState) => state.present.get('frames'));
+  const duration = useSelector((state: RootState) => state.present.get('duration'));
   const frameList = frames.get('list');
   const activeFrameIndex = frames.get('activeIndex');
   const columns = frames.get('columns');
   const rows = frames.get('rows');
-  const { helpOn, callback } = props;
+
   const animMessage = `${animate ? 'Pause' : 'Play'} the animation`;
   const zoomMessage = `Zoom ${isNormalSize ? '0.5' : '1.5'}`;
   const animTooltip = helpOn ? animMessage : null;
@@ -35,9 +42,7 @@ const PreviewBox = props => {
             type="button"
             className={isNormalSize ? 'screen-normal' : 'screen-full'}
             aria-label="Zoom button"
-            onClick={() => {
-              setNormalSize(!isNormalSize);
-            }}
+            onClick={() => setNormalSize(!isNormalSize)}
           />
         </div>
         <div data-tooltip={helpOn ? 'Show a preview of your project' : null}>

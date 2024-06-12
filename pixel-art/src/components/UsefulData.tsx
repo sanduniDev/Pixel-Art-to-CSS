@@ -4,35 +4,40 @@ import Checkbox from './Checkbox';
 import Output from './Output';
 import generateFramesOutput from '../utils/outputParse';
 
-const UsefulData = props => {
+// Define TypeScript interface for props
+interface UsefulDataProps {
+  frames: any[];  // Define a more specific type based on your frame structure
+  columns: number;
+}
+
+// Define the option structure used in RadioSelector
+interface ColorFormatOption {
+  value: number;
+  description: string;
+  labelFor: string;
+  id: number;
+}
+
+const UsefulData: React.FC<UsefulDataProps> = ({ frames, columns }) => {
   const [colorFormatId, setColorFormat] = useState(0);
   const [checkboxOddState, setCheckboxOdd] = useState(false);
   const [checkboxEvenState, setCheckboxEven] = useState(false);
-  const { frames, columns } = props;
-  const colorFormatOptions = [
-    {
-      value: 0,
-      description: '#000000',
-      labelFor: 'c-format-hcss',
-      id: 0
-    },
+
+  const colorFormatOptions: ColorFormatOption[] = [
+    { value: 0, description: '#000000', labelFor: 'c-format-hcss', id: 0 },
     { value: 1, description: '0x000000', labelFor: 'c-format-hx', id: 1 },
-    {
-      value: 2,
-      description: 'rgba(0,0,0,1)',
-      labelFor: 'c-format-rgba',
-      id: 2
-    }
+    { value: 2, description: 'rgba(0,0,0,1)', labelFor: 'c-format-rgba', id: 2 }
   ];
-  const changeColorFormat = value => {
+
+  const changeColorFormat = (value: number) => {
     setColorFormat(value);
   };
+
   const generateUsefulDataOutput = (
-    formatId,
-    reverseOddRows,
-    reverseEvenRows
-  ) =>
-    generateFramesOutput({
+    formatId: number,
+    reverseOddRows: boolean,
+    reverseEvenRows: boolean
+  ) => generateFramesOutput({
       frames,
       columns,
       options: {
@@ -41,13 +46,11 @@ const UsefulData = props => {
         reverseEven: reverseEvenRows
       }
     });
+
   return (
     <div className="load-drawing useful-data">
       <h2>Get additional data from your project</h2>
-      <p>
-        Here you will find every pixel color values grouped by frame. You can
-        modify the output with the following options:
-      </p>
+      <p>Here you will find every pixel color values grouped by frame. You can modify the output with the following options:</p>
       <div className="useful-data__options">
         <fieldset className="useful-data__rows">
           <div className="useful-data__pixel-format">
@@ -66,18 +69,14 @@ const UsefulData = props => {
               labelFor="oddRows"
               description="Reverse Odd Rows"
               checked={checkboxOddState}
-              onChange={() => {
-                setCheckboxOdd(!checkboxOddState);
-              }}
+              onChange={() => setCheckboxOdd(!checkboxOddState)}
             />
             <Checkbox
               name="evenRows"
               labelFor="evenRows"
               description="Reverse Even Rows"
               checked={checkboxEvenState}
-              onChange={() => {
-                setCheckboxEven(!checkboxEvenState);
-              }}
+              onChange={() => setCheckboxEven(!checkboxEvenState)}
             />
           </div>
         </fieldset>
@@ -88,7 +87,7 @@ const UsefulData = props => {
               textButton: 'Copy',
               successMessage: 'Copied!'
             }}
-            preFormatted="true"
+            preFormatted={true}
             outputText={`${generateUsefulDataOutput(
               colorFormatId,
               checkboxOddState,
@@ -100,4 +99,5 @@ const UsefulData = props => {
     </div>
   );
 };
+
 export default UsefulData;
