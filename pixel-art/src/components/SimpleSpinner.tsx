@@ -1,8 +1,7 @@
 // SimpleSpinner.tsx
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../store'; // Ensure this import path is correct for your RootState type
-
+import { RootState } from '../store/useStore'; 
 // Define props from state
 const mapStateToProps = (state: RootState) => ({
   loading: state.present.get('loading') // Assuming 'present' is a part of your state structure and 'loading' is a boolean

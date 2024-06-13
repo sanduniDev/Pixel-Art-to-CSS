@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import * as actionCreators from '../store/actions/actionCreators';
+import * as actionCreators from '../store/useStore';
 import { RootState } from '../store'; // Import your root Redux state type
 
 // Define props from state
