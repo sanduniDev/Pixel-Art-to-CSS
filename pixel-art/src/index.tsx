@@ -1,11 +1,10 @@
-// index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import './css/imports.css';
 import configureStore from './store/configureStore';
 import Root from './components/Root';
-import { Store } from 'redux';
+
 
 // Define interface for the environment variables if needed
 interface ProcessEnv {
