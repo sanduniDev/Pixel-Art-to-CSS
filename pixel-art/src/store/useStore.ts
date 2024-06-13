@@ -16,12 +16,12 @@ interface MoveDiff {
 }
 
 interface Frame {
-    id: number;  // Assuming id is a number based on your error message
+    id: number; 
 }
 
 interface StoreState {
     frames: Frame[];
-    paletteGridData: any[]; // Define a more specific type if possible
+    paletteGridData: any[]; 
     cellSize: number;
     columns: number;
     rows: number;
@@ -30,12 +30,12 @@ interface StoreState {
     notificationMessage: string;
     past: StoreState[];
     future: StoreState[];
-    gridElement?: HTMLElement; // If you use gridElement, it should be part of the state
-    selectedPalettePosition?: number; // If used, it should be part of the state
-    customColor?: string; // If used, it should be part of the state
-    currentTool?: string; // If used, it should be part of the state
-    activeFrameIndex?: number; // If used, it should be part of the state
-    duration?: number; // If used, it should be part of the state
+    gridElement?: HTMLElement; 
+    selectedPalettePosition?: number; 
+    customColor?: string;
+    currentTool?: string; 
+    activeFrameIndex?: number; 
+    duration?: number; 
 }
 
 const useStore = create<StoreState>((set, get) => ({
@@ -63,7 +63,7 @@ const useStore = create<StoreState>((set, get) => ({
     setCustomColor: (customColor: string) => set((state) => ({ ...state, customColor, past: [...state.past] })),
     cellAction: (cellData: CellData) => set((state) => {
         const frame: Frame = {
-            id: parseInt(cellData.id, 10), // Convert string id to number
+            id: parseInt(cellData.id, 10), 
         };
         return { frames: [...state.frames, frame], past: [...state.past] };
     }),
@@ -97,7 +97,7 @@ const useStore = create<StoreState>((set, get) => ({
     changeFrameInterval: (frameIndex: number, interval: number) => set((state) => {
         const frames = [...state.frames];
         if (frames[frameIndex]) {
-            (frames[frameIndex] as any).interval = interval; // Use any or extend Frame interface
+            (frames[frameIndex] as any).interval = interval; 
         }
         return { frames, past: [...state.past] };
     }),
